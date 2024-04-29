@@ -15,6 +15,8 @@ let puntosJugardor = 0,
 
 // Rerefecias del HTML
 const btnPedirCarta = document.querySelector('#btnPedirCarta');
+
+const divCartasJugador = document.querySelector('#jugador-cartas');
 const puntosHTML = document.querySelectorAll('small');
 
 // Esta función permite crear un nuevo deck
@@ -75,5 +77,20 @@ btnPedirCarta.addEventListener('click', () => {
 
     puntosJugardor = puntosJugardor + valorCarta( carta );
     puntosHTML[0].innerText = puntosJugardor;
+
+    // Logica o funcionalidad para colocar la carta que salión de nuestro deck en el HTML(jugador).
+    const imgCarta = document.createElement('img');
+    imgCarta.src = `assets/cartas/${carta}.png`;
+    imgCarta.classList.add('carta');
+    divCartasJugador.append(imgCarta);
+    
+    if(puntosJugardor > 21) {
+        console.warn('!Lo siento mucho, perdiste!');
+        btnPedirCarta.disabled = true;
+    } else if( puntosJugardor === 21) {
+        console.log('¡Genial, 21!');
+        btnPedirCarta.disabled = true;
+    }
+
     
 });
