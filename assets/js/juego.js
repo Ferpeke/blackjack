@@ -37,10 +37,10 @@ const pedirCarta = () => {
     let posicionCarta = 0;
 
     const min = Math.ceil(0);
-    const max = Math.floor(deck.length-1);
+    const max = Math.floor(deck.length - 1);
     posicionCarta = Math.floor(Math.random() * (max - min) + min);
 
-    if (deck.length === 0) {
+    if(deck.length === 0) {
         throw 'No hay más cartas en el deck';
     } else {
         for (let i = 0; i <= deck.length; i++){
@@ -51,8 +51,18 @@ const pedirCarta = () => {
             }
         }
     }
+    console.log(carta);
     return carta;
 }
-//pedirCarta();
 
+const valorCarta = (carta) => {
 
+    const valor = carta.substring(0, carta.length - 1); // tomar solo el valor de la carta. Ejemplo carta = '2D' solo tomamos el primer valor (2). o ya sea una letra como 'AD', se toma A.
+    // valores de las cartas 2 = 2, 3 = 3, 4 = 4 ..., A = 11, J = 10, Q = 10, K = 10.
+    return (isNaN(valor)) ? 
+            (valor === 'A') ? 11 : 10 
+            : parseInt(valor);
+}
+
+let valor  = valorCarta(pedirCarta()); // Madamos a llamar a la función 'pedir carta' que devuelve la carta tomada del deck.
+console.log({valor});
