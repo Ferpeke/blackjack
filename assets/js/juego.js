@@ -8,7 +8,14 @@
 
 let deck = [];
 const  tipos = ['C','D','H','S'];
-const especiales = ['A','J','Q','K']; 
+const especiales = ['A','J','Q','K'];
+
+let puntosJugardor = 0,
+    puntosComputadora = 0;
+
+// Rerefecias del HTML
+const btnPedirCarta = document.querySelector('#btnPedirCarta');
+const puntosHTML = document.querySelectorAll('small');
 
 // Esta función permite crear un nuevo deck
 const creaDeck = () => {
@@ -25,7 +32,6 @@ const creaDeck = () => {
     }    
     // Usamos la funcion "shuffle" de la librería underscore para barajear nuestro deck
     deck = _.shuffle(deck);
-    console.log(deck);
 }
 
 creaDeck();
@@ -51,7 +57,6 @@ const pedirCarta = () => {
             }
         }
     }
-    console.log(carta);
     return carta;
 }
 
@@ -64,5 +69,11 @@ const valorCarta = (carta) => {
             : parseInt(valor);
 }
 
-let valor  = valorCarta(pedirCarta()); // Madamos a llamar a la función 'pedir carta' que devuelve la carta tomada del deck.
-console.log({valor});
+// Eventos
+btnPedirCarta.addEventListener('click', () => {
+    const carta = pedirCarta();
+
+    puntosJugardor = puntosJugardor + valorCarta( carta );
+    puntosHTML[0].innerText = puntosJugardor;
+    
+});
