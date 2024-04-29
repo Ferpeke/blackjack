@@ -15,8 +15,10 @@ let puntosJugardor = 0,
 
 // Rerefecias del HTML
 const btnPedirCarta = document.querySelector('#btnPedirCarta');
+const btnDetener = document.querySelector('#btnDetener');
 
 const divCartasJugador = document.querySelector('#jugador-cartas');
+const divCartasComputadora = document.querySelector('#computadora-cartas');
 const puntosHTML = document.querySelectorAll('small');
 
 // Esta función permite crear un nuevo deck
@@ -71,6 +73,29 @@ const valorCarta = (carta) => {
             : parseInt(valor);
 }
 
+// Turno de la computadora
+const turnoComputadora = (puntosMinimos) => {
+    do {
+        const carta = pedirCarta();
+
+        puntosComputadora = puntosComputadora + valorCarta( carta );
+        puntosHTML[1].innerText = puntosComputadora;
+
+        const imgCarta = document.createElement('img');
+        imgCarta.src = `assets/cartas/${carta}.png`;
+        imgCarta.classList.add('carta');
+        divCartasComputadora.append(imgCarta);
+
+        // Si los puntos del jugador son mayores a 21, ya no es necesario seguir con el ciclo, con uno basta.
+        if(puntosMinimos > 21) {
+            break;
+        }
+        
+
+    } while ((puntosComputadora <= puntosMinimos) && (puntosMinimos <= 21 ));
+}
+
+
 // Eventos
 btnPedirCarta.addEventListener('click', () => {
     const carta = pedirCarta();
@@ -87,10 +112,21 @@ btnPedirCarta.addEventListener('click', () => {
     if(puntosJugardor > 21) {
         console.warn('!Lo siento mucho, perdiste!');
         btnPedirCarta.disabled = true;
+        btnDetener.disabled = true;
+        turnoComputadora(puntosJugardor);
+        
     } else if( puntosJugardor === 21) {
         console.log('¡Genial, 21!');
         btnPedirCarta.disabled = true;
+        btnDetener.disabled = true;
+        turnoComputadora(puntosJugardor);
     }
 
     
 });
+
+btnDetener.addEventListener('click', () => {
+    btnPedirCarta.disabled = true;
+    btnDetener.disabled = true;
+    turnoComputadora(puntosJugardor);
+})
